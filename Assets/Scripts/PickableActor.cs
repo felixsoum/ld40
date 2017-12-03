@@ -7,17 +7,22 @@ public class PickableActor : Actor
     public Collider mainCollider;
     public LayerMask floorLayer;
     bool isPickedUp;
-    Tile currentTile;
+    public bool isPickable { get; private set; }
+    protected Tile currentTile;
 
     protected override void MonoAwake()
     {
         base.MonoAwake();
+        isPickable = true;
     }
 
     private void OnMouseDown()
     {
-        isPickedUp = true;
-        mainCollider.enabled = false;
+        if (isPickable)
+        {
+            isPickedUp = true;
+            mainCollider.enabled = false;
+        }
     }
 
     private void OnMouseUp()
@@ -36,9 +41,13 @@ public class PickableActor : Actor
             if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, floorLayer))
             {
                 Vector3 position = hitInfo.point;
-                position.y = 0;
+                position.y = 0.01f;
                 position.z -= 0.25f;
-                transform.position = position;
+                Tile newTile = tiles.GetTileFromPosition(position);
+                if (newTile)
+                {
+                    transform.position = position;
+                }
             }
         }
 
@@ -53,5 +62,11 @@ public class PickableActor : Actor
     public Tile GetCurrentTile()
     {
         return currentTile;
+    }
+
+    protected void SetPickable(bool value)
+    {
+        isPickable = value;
+        mainCollider.enabled = isPickable;
     }
 }

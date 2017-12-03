@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Actor : MonoBehaviour
 {
+    public Renderer rend;
     protected Camera mainCam;
     protected Tiles tiles;
 
@@ -26,25 +27,31 @@ public class Actor : MonoBehaviour
 
     protected virtual void MonoStart()
     {
-
+        AlignRotation();
+        rend.enabled = true;
     }
 	
 	// Update is called once per frame
 	void Update()
     {
-        Vector3 dir = mainCam.transform.position - transform.position;
-        transform.rotation = mainCam.transform.rotation;
+
         MonoUpdate();
     }
 
     protected virtual void MonoUpdate()
     {
-
+        AlignRotation();
     }
 
     public Vector3 GetGroundPosition()
     {
         return transform.position + transform.up * 0.25f;
+    }
+
+    void AlignRotation()
+    {
+        Vector3 dir = mainCam.transform.position - transform.position;
+        transform.rotation = mainCam.transform.rotation;
     }
 
 }

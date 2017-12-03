@@ -6,8 +6,8 @@ public class Tiles : MonoBehaviour
 {
     public GameObject TilePrefab;
     Tile currentTile;
-    const int tilesCol = 8;
-    const int tilesRow = 8;
+    public const int tilesCol = 8;
+    public const int tilesRow = 8;
     Tile[,] tiles = new Tile[tilesCol, tilesRow];
 
     private void Awake()
@@ -22,6 +22,7 @@ public class Tiles : MonoBehaviour
                 newTile.transform.parent = transform.parent;
                 Tile tileComp = newTile.GetComponent<Tile>();
                 tileComp.SetTiles(this);
+                tileComp.SetIndex(x, y);
                 tiles[x, y] = tileComp;
             }
         }
@@ -41,18 +42,25 @@ public class Tiles : MonoBehaviour
     {
         Tile nextTile = GetTileFromPosition(pickable.GetGroundPosition());
         Tile previousTile = pickable.GetCurrentTile();
-        if (previousTile && previousTile != nextTile)
+        if (pickable.isPickable)
         {
-            previousTile.RemoveActor(pickable);
+            if (previousTile && previousTile != nextTile)
+            {
+                previousTile.RemoveActor(pickable);
+            }
+            nextTile.AddActor(pickable);
         }
         pickable.SetCurrentTile(nextTile);
-        nextTile.AddActor(pickable);
     }
 
-    Tile GetTileFromPosition(Vector3 position)
+    public Tile GetTileFromPosition(Vector3 position)
     {
-        int x = Mathf.Clamp(Mathf.FloorToInt((position.x + 4.375f + 1.25f/2f)/1.25f), 0, tilesCol - 1);
-        int y = Mathf.Clamp(Mathf.FloorToInt((position.z * -1f + 4.375f + 1.25f/2f)/1.25f), 0, tilesRow - 1);
+        int x = Mathf.FloorToInt((position.x + 4.375f + 1.25f / 2f) / 1.25f);
+        int y = Mathf.FloorToInt((position.z * -1f + 4.375f + 1.25f / 2f) / 1.25f);
+        if (x < 0 || y < 0 || x >= tilesCol || y >= tilesRow)
+        {
+            return null;
+        }
         return tiles[x, y];
     }
 }

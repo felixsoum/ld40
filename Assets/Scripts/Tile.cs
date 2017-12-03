@@ -5,9 +5,11 @@ using UnityEngine;
 public class Tile : MonoBehaviour
 {
     public MeshRenderer meshRenderer;
+    public int x { get; private set; }
+    public int y { get; private set; }
     Material mat;
     Tiles tiles;
-    List<Actor> actorsOnTile = new List<Actor>();    
+    List<Actor> actorsOnTile = new List<Actor>();
 
     private void Awake()
     {
@@ -33,16 +35,11 @@ public class Tile : MonoBehaviour
         }
 	}
 
-    //private void OnMouseEnter()
-    //{
-    //    tiles.OnTileMouseOver(this);
-    //    OnEffect();
-    //}
-
-    //private void OnMouseExit()
-    //{
-    //    OffEffect();
-    //}
+    public void SetIndex(int x, int y)
+    {
+        this.x = x;
+        this.y = y;
+    }
 
     void SetAlpha(float value)
     {
