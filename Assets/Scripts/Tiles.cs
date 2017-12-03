@@ -36,4 +36,23 @@ public class Tiles : MonoBehaviour
     {
         currentTile = tile;
     }
+
+    public void UpdatePickableOnTile(PickableActor pickable)
+    {
+        Tile nextTile = GetTileFromPosition(pickable.GetGroundPosition());
+        Tile previousTile = pickable.GetCurrentTile();
+        if (previousTile && previousTile != nextTile)
+        {
+            previousTile.RemoveActor(pickable);
+        }
+        pickable.SetCurrentTile(nextTile);
+        nextTile.AddActor(pickable);
+    }
+
+    Tile GetTileFromPosition(Vector3 position)
+    {
+        int x = Mathf.Clamp(Mathf.FloorToInt((position.x + 4.375f + 1.25f/2f)/1.25f), 0, tilesCol - 1);
+        int y = Mathf.Clamp(Mathf.FloorToInt((position.z * -1f + 4.375f + 1.25f/2f)/1.25f), 0, tilesRow - 1);
+        return tiles[x, y];
+    }
 }

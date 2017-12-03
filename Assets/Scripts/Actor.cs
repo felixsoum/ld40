@@ -5,6 +5,7 @@ using UnityEngine;
 public class Actor : MonoBehaviour
 {
     protected Camera mainCam;
+    protected Tiles tiles;
 
     private void Awake()
     {
@@ -19,6 +20,7 @@ public class Actor : MonoBehaviour
 
     // Use this for initialization
     void Start () {
+        tiles = GameObject.FindGameObjectWithTag("Tiles").GetComponent<Tiles>();
         MonoStart();
 	}
 
@@ -38,6 +40,11 @@ public class Actor : MonoBehaviour
     protected virtual void MonoUpdate()
     {
 
+    }
+
+    public Vector3 GetGroundPosition()
+    {
+        return transform.position + transform.up * 0.25f;
     }
 
 }

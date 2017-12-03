@@ -7,6 +7,7 @@ public class PickableActor : Actor
     public Collider mainCollider;
     public LayerMask floorLayer;
     bool isPickedUp;
+    Tile currentTile;
 
     protected override void MonoAwake()
     {
@@ -40,5 +41,17 @@ public class PickableActor : Actor
                 transform.position = position;
             }
         }
+
+        tiles.UpdatePickableOnTile(this);
+    }
+
+    public void SetCurrentTile(Tile tile)
+    {
+        currentTile = tile;
+    }
+
+    public Tile GetCurrentTile()
+    {
+        return currentTile;
     }
 }
