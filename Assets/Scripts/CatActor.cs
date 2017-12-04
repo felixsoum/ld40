@@ -4,13 +4,23 @@ using UnityEngine;
 
 public class CatActor : PickableActor
 {
+    public Material[] leftFrames;
+    public Material[] rightFrames;
+    public Material[] upFrames;
+    public Material[] downFrames;
+    Material[] currentFrames;
+
     List<ValuableActor> valuables;
     ValuableActor targetValuable;
     Vector3 targetMove;
     List<Vector3> possibleMoves = new List<Vector3>();
-    const float idleTimeMin = 0.5f;
-    const float idleTimeMax = 2f;
+    List<Material[]> framesForMoves = new List<Material[]>();
+    const float idleTimeMin = 0.1f;
+    const float idleTimeMax = 0.5f;
     float idleTimer = idleTimeMax;
+    const float animFrameTime = 0.1f;
+    float animTimer;
+    int animIndex;
 
     protected override void MonoAwake()
     {
@@ -31,6 +41,24 @@ public class CatActor : PickableActor
     {
         base.MonoUpdate();
         
+        if (animTimer > 0)
+        {
+            animTimer -= Time.deltaTime;
+            if (animTimer <= 0)
+            {
+                if (++animIndex >= currentFrames.Length)
+                {
+                    animIndex = 0;
+                    animTimer = 0;
+                }
+                else
+                {
+                    animTimer = animFrameTime;
+                }
+                rend.material = currentFrames[animIndex];
+            }
+        }
+
         if (isPickedUp)
         {
             return;
@@ -81,24 +109,32 @@ public class CatActor : PickableActor
     void RandomMove()
     {
         possibleMoves.Clear();
+        framesForMoves.Clear();
         if (currentTile.y > 0)
         {
             possibleMoves.Add(transform.position + new Vector3(0, 0, 1.25f));
+            framesForMoves.Add(upFrames);
         }
         if (currentTile.x < Tiles.tilesCol - 1)
         {
             possibleMoves.Add(transform.position + new Vector3(1.25f, 0, 0));
+            framesForMoves.Add(rightFrames);
         }
         if (currentTile.y < Tiles.tilesRow - 1)
         {
             possibleMoves.Add(transform.position + new Vector3(0, 0, -1.25f));
+            framesForMoves.Add(downFrames);
         }
         if (currentTile.x > 0)
         {
             possibleMoves.Add(transform.position + new Vector3(-1.25f, 0, 0));
+            framesForMoves.Add(leftFrames);
         }
 
-        targetMove = possibleMoves[Random.Range(0, possibleMoves.Count)];
+        int choice = Random.Range(0, possibleMoves.Count);
+        targetMove = possibleMoves[choice];
+        currentFrames = framesForMoves[choice];
+        StartAnim();
     }
 
     void MoveToValuable()
@@ -109,34 +145,49 @@ public class CatActor : PickableActor
             return;
         }
         possibleMoves.Clear();
+        framesForMoves.Clear();
 
         Tile targetTile = targetValuable.GetCurrentTile();
 
         if (currentTile.y > targetTile.y)
         {
             possibleMoves.Add(transform.position + new Vector3(0, 0, 1.25f));
+            framesForMoves.Add(upFrames);
         }
         if (currentTile.x < targetTile.x)
         {
             possibleMoves.Add(transform.position + new Vector3(1.25f, 0, 0));
+            framesForMoves.Add(rightFrames);
         }
         if (currentTile.y < targetTile.y)
         {
             possibleMoves.Add(transform.position + new Vector3(0, 0, -1.25f));
+            framesForMoves.Add(downFrames);
         }
         if (currentTile.x > targetTile.x)
         {
             possibleMoves.Add(transform.position + new Vector3(-1.25f, 0, 0));
+            framesForMoves.Add(leftFrames);
         }
 
         if (possibleMoves.Count > 0)
         {
-            targetMove = possibleMoves[Random.Range(0, possibleMoves.Count)];
+            int choice = Random.Range(0, possibleMoves.Count);
+            targetMove = possibleMoves[choice];
+            currentFrames = framesForMoves[choice];
+            StartAnim();
         }
         else
         {
             RandomMove();
         }
+    }
+
+    void StartAnim()
+    {
+        animIndex = 0;
+        animTimer = animFrameTime;
+        rend.material = currentFrames[animIndex];
     }
 
     void PickValuable()
