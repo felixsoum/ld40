@@ -1,14 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameSystem : MonoBehaviour
 {
     public GameObject CatPrefab;
     public Transform CatsTransform;
     public List<ValuableActor> valuables;
-
+    public GameObject endScreen;
+    public Text scoreText;
+    bool isGameOver;
     List<Vector3> spawnPositions = new List<Vector3>();
+    float score;
 
     private void Awake()
     {
@@ -28,7 +32,7 @@ public class GameSystem : MonoBehaviour
     void Start()
     {
         SpawnCat();
-	}
+    }
 
     void SpawnCat()
     {
@@ -41,6 +45,27 @@ public class GameSystem : MonoBehaviour
         CatActor catComp = newCat.GetComponent<CatActor>();
         catComp.SetValuables(valuables);
         Invoke("SpawnCat", 5f);
+    }
+
+    private void Update()
+    {
+        if (isGameOver)
+        {
+            return;
+        }
+        score += Time.deltaTime;
+        if (!isGameOver && valuables.Count == 0)
+        {
+            isGameOver = true;
+            int scoreInt = Mathf.FloorToInt(score);
+            scoreText.text = scoreInt.ToString();
+            Invoke("End", 2f);
+        }
+    }
+
+    void End()
+    {
+        endScreen.SetActive(true);
     }
 
 }

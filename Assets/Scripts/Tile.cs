@@ -24,14 +24,14 @@ public class Tile : MonoBehaviour
 	// Update is called once per frame
 	void Update()
     {
-		if (actorsOnTile.Count > 0)
-        {
-            SetAlpha(0.25f);
-        }
-        else
-        {
-            SetAlpha(0);
-        }
+		//if (actorsOnTile.Count > 0)
+  //      {
+  //          SetAlpha(0.25f);
+  //      }
+  //      else
+  //      {
+  //          SetAlpha(0);
+  //      }
 	}
 
     public void SetIndex(int x, int y)

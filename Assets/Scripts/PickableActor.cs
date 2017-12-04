@@ -48,10 +48,10 @@ public class PickableActor : Actor
         {
             Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitInfo;
-            if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, floorLayer))
+            if (Physics.Raycast(ray, out hitInfo, 20f, floorLayer))
             {
                 Vector3 position = hitInfo.point;
-                position.y = 0.01f;
+                position.y = 0.1f;
                 position.z -= 0.25f;
                 Tile newTile = tiles.GetTileFromPosition(position);
                 if (newTile)
