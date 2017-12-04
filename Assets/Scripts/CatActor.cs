@@ -10,7 +10,7 @@ public class CatActor : PickableActor
     List<Vector3> possibleMoves = new List<Vector3>();
     const float idleTimeMin = 0.5f;
     const float idleTimeMax = 2f;
-    bool isReady;
+    float idleTimer = idleTimeMax;
 
     protected override void MonoAwake()
     {
@@ -25,27 +25,31 @@ public class CatActor : PickableActor
 
         PickValuable();
         tiles.UpdatePickableOnTile(this);
-        Invoke("MoveToValuable", GetIdleTime());
     }
 
     protected override void MonoUpdate()
     {
         base.MonoUpdate();
-        if (!isReady)
-        {
-            return;
-        }
-
         UpdateValuables();
 
-        if (!IsAtTarget())
+        if (idleTimer > 0)
         {
-            Vector3 distance = targetMove - transform.position;
-
-            transform.position += distance * 0.05f;
+            idleTimer -= Time.deltaTime;
+            if (idleTimer <= 0)
+            {
+                MoveToValuable();
+            }
+        }
+        else
+        {
+            if (!IsAtTarget())
+            {
+                Vector3 distance = targetMove - transform.position;
+                transform.position += distance * 0.05f;
+            }
             if (IsAtTarget())
             {
-                Invoke("MoveToValuable", GetIdleTime());
+                idleTimer = Random.Range(idleTimeMin, idleTimeMax);
             }
         }
     }
@@ -71,7 +75,6 @@ public class CatActor : PickableActor
         }
 
         targetMove = possibleMoves[Random.Range(0, possibleMoves.Count)];
-        isReady = true;
     }
 
     void MoveToValuable()
@@ -104,7 +107,6 @@ public class CatActor : PickableActor
         if (possibleMoves.Count > 0)
         {
             targetMove = possibleMoves[Random.Range(0, possibleMoves.Count)];
-            isReady = true;
         }
         else
         {
