@@ -55,7 +55,7 @@ public class Tile : MonoBehaviour
 
     public void OnEffect()
     {
-        SetAlpha(0.25f);
+        SetAlpha(0.75f);
     }
 
     public void OffEffect()

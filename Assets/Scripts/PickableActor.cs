@@ -9,7 +9,7 @@ public class PickableActor : Actor
     bool isPickedUp;
     public bool isPickable { get; private set; }
     protected Tile currentTile;
-
+    const float moveMax = 0.5f;
     protected override void MonoAwake()
     {
         base.MonoAwake();
@@ -46,7 +46,15 @@ public class PickableActor : Actor
                 Tile newTile = tiles.GetTileFromPosition(position);
                 if (newTile)
                 {
-                    transform.position = position;
+                    Vector3 distance = position - transform.position;
+                    if (distance.magnitude <= moveMax)
+                    {
+                        transform.position = position;
+                    }
+                    else
+                    {
+                        transform.position += distance.normalized * moveMax;
+                    }
                 }
             }
         }
