@@ -10,10 +10,13 @@ public class PickableActor : Actor
     public bool isPickable { get; private set; }
     protected Tile currentTile;
     const float moveMax = 0.5f;
+    public bool isValid { get; private set; }
+
     protected override void MonoAwake()
     {
         base.MonoAwake();
         isPickable = true;
+        isValid = true;
     }
 
     private void OnMouseDown()

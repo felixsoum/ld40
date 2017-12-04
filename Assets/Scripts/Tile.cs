@@ -8,7 +8,6 @@ public class Tile : MonoBehaviour
     public int x { get; private set; }
     public int y { get; private set; }
     Material mat;
-    Tiles tiles;
     List<Actor> actorsOnTile = new List<Actor>();
 
     private void Awake()
@@ -46,11 +45,6 @@ public class Tile : MonoBehaviour
         Color color = mat.color;
         color.a = value;
         mat.color = color;
-    }
-
-    public void SetTiles(Tiles tiles)
-    {
-        this.tiles = tiles;
     }
 
     public void OnEffect()

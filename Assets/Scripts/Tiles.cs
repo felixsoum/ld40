@@ -21,7 +21,6 @@ public class Tiles : MonoBehaviour
                 newTile.name = "Tile(" + x + "," + y + ")";
                 newTile.transform.parent = transform.parent;
                 Tile tileComp = newTile.GetComponent<Tile>();
-                tileComp.SetTiles(this);
                 tileComp.SetIndex(x, y);
                 tiles[x, y] = tileComp;
             }

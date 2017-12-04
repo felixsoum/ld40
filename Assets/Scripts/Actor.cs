@@ -50,7 +50,6 @@ public class Actor : MonoBehaviour
 
     void AlignRotation()
     {
-        Vector3 dir = mainCam.transform.position - transform.position;
         transform.rotation = mainCam.transform.rotation;
     }
 

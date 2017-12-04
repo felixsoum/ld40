@@ -6,6 +6,8 @@ public class GameSystem : MonoBehaviour
 {
     public GameObject CatPrefab;
     public Transform CatsTransform;
+    public List<PickableActor> valuables;
+
     List<Vector3> spawnPositions = new List<Vector3>();
 
     private void Awake()
@@ -36,6 +38,8 @@ public class GameSystem : MonoBehaviour
         GameObject newCat = GameObject.Instantiate(CatPrefab);
         newCat.transform.position = spawnPosition;
         newCat.transform.parent = CatsTransform;
+        CatActor catComp = newCat.GetComponent<CatActor>();
+        catComp.SetValuables(valuables);
         Invoke("SpawnCat", 5f);
     }
 

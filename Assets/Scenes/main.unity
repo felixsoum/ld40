@@ -141,6 +141,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CatPrefab: {fileID: 1402419490043272, guid: ce8ebc244f6107047a89384535a8d5df, type: 2}
   CatsTransform: {fileID: 1645549556}
+  valuables: []
 --- !u!4 &13715530
 Transform:
   m_ObjectHideFlags: 0
@@ -356,8 +357,8 @@ GameObject:
   m_Component:
   - component: {fileID: 315344358}
   m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
+  m_Name: Valuables
+  m_TagString: Valuables
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
