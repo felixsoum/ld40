@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CatActor : PickableActor
 {
-    List<PickableActor> valuables;
-    PickableActor targetValuable;
+    List<ValuableActor> valuables;
+    ValuableActor targetValuable;
     Vector3 targetMove;
     List<Vector3> possibleMoves = new List<Vector3>();
     const float idleTimeMin = 0.5f;
@@ -30,7 +30,13 @@ public class CatActor : PickableActor
     protected override void MonoUpdate()
     {
         base.MonoUpdate();
-        UpdateValuables();
+        
+        if (targetValuable && !targetValuable.isValid)
+        {
+            PickValuable();
+        }
+
+        UpdateAttacks();
 
         if (idleTimer > 0)
         {
@@ -50,6 +56,19 @@ public class CatActor : PickableActor
             if (IsAtTarget())
             {
                 idleTimer = Random.Range(idleTimeMin, idleTimeMax);
+            }
+        }
+    }
+
+    void UpdateAttacks()
+    {
+        for (int i = valuables.Count - 1; i >= 0; i--)
+        {
+            ValuableActor attackTarget = valuables[i];
+            if (attackTarget.isValid && Vector3.Distance(attackTarget.transform.position, transform.position) < 1f)
+            {
+                valuables.Remove(attackTarget);
+                attackTarget.Break();
             }
         }
     }
@@ -81,6 +100,7 @@ public class CatActor : PickableActor
     {
         if (!targetValuable || !targetValuable.isValid)
         {
+            RandomMove();
             return;
         }
         possibleMoves.Clear();
@@ -114,24 +134,15 @@ public class CatActor : PickableActor
         }
     }
 
-    void UpdateValuables()
-    {
-        while (targetValuable && !targetValuable.isValid)
-        {
-            if (valuables.Contains(targetValuable))
-            {
-                valuables.Remove(targetValuable);
-            }
-            targetValuable = null;
-
-        }
-    }
-
     void PickValuable()
     {
         if (valuables.Count > 0)
         {
             targetValuable = valuables[Random.Range(0, valuables.Count)];
+        }
+        else
+        {
+            targetValuable = null;
         }
     }
 
@@ -145,7 +156,7 @@ public class CatActor : PickableActor
         return Vector3.Distance(transform.position, targetMove) <= 0.01f;
     }
 
-    public void SetValuables(List<PickableActor> v)
+    public void SetValuables(List<ValuableActor> v)
     {
         valuables = v;
     }

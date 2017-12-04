@@ -10,7 +10,7 @@ public class PickableActor : Actor
     public bool isPickable { get; private set; }
     protected Tile currentTile;
     const float moveMax = 0.5f;
-    public bool isValid { get; private set; }
+    public bool isValid { get; set; }
 
     protected override void MonoAwake()
     {
@@ -21,7 +21,7 @@ public class PickableActor : Actor
 
     private void OnMouseDown()
     {
-        if (isPickable)
+        if (isValid && isPickable)
         {
             isPickedUp = true;
             mainCollider.enabled = false;
@@ -30,13 +30,20 @@ public class PickableActor : Actor
 
     private void OnMouseUp()
     {
-        isPickedUp = false;
-        mainCollider.enabled = true;
+        if (isValid)
+        {
+            isPickedUp = false;
+            mainCollider.enabled = true;
+        }
     }
 
     protected override void MonoUpdate()
     {
         base.MonoUpdate();
+        if (!isValid)
+        {
+            return;
+        }
         if (isPickedUp)
         {
             Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);

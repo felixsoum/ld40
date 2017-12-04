@@ -6,7 +6,7 @@ public class GameSystem : MonoBehaviour
 {
     public GameObject CatPrefab;
     public Transform CatsTransform;
-    public List<PickableActor> valuables;
+    public List<ValuableActor> valuables;
 
     List<Vector3> spawnPositions = new List<Vector3>();
 
