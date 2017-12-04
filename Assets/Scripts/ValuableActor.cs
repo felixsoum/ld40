@@ -6,6 +6,12 @@ public class ValuableActor : PickableActor
 {
     public GameObject[] valuablePieces;
 
+    protected override void MonoAwake()
+    {
+        base.MonoAwake();
+        isDraggableOut = false;
+    }
+
     public void Break()
     {
         isValid = false;

@@ -17,12 +17,12 @@ public class CatActor : PickableActor
         base.MonoAwake();
         SetPickable(false);
         targetMove = transform.position;
+        isDraggableOut = true;
     }
 
     protected override void MonoStart()
     {
         base.MonoStart();
-
         PickValuable();
         tiles.UpdatePickableOnTile(this);
     }
@@ -31,6 +31,11 @@ public class CatActor : PickableActor
     {
         base.MonoUpdate();
         
+        if (isPickedUp)
+        {
+            return;
+        }
+
         if (targetValuable && !targetValuable.isValid)
         {
             PickValuable();

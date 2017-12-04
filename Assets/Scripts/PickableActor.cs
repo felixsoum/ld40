@@ -6,11 +6,12 @@ public class PickableActor : Actor
 {
     public Collider mainCollider;
     public LayerMask floorLayer;
-    bool isPickedUp;
+    public bool isPickedUp { get; private set; }
     public bool isPickable { get; private set; }
     protected Tile currentTile;
     const float moveMax = 0.5f;
     public bool isValid { get; set; }
+    public bool isDraggableOut { get; set; }
 
     protected override void MonoAwake()
     {
@@ -65,6 +66,10 @@ public class PickableActor : Actor
                     {
                         transform.position += distance.normalized * moveMax;
                     }
+                }
+                else if (isDraggableOut)
+                {
+                    // If cats dragged out
                 }
             }
         }

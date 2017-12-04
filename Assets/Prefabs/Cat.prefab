@@ -86,7 +86,7 @@ MeshRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: c09f276b4a2c4f44eae722a9006629b5, type: 2}
+  - {fileID: 2100000, guid: bcacf4a5fb9fac34580727439ca69b3b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -140,4 +140,4 @@ MonoBehaviour:
   mainCollider: {fileID: 65009355933557564}
   floorLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 768
