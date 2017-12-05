@@ -41,6 +41,10 @@ public class GameSystem : MonoBehaviour
 
     void SpawnCat()
     {
+        if (isGameOver)
+        {
+            return;
+        }
         Vector3 spawnPosition = spawnPositions[Random.Range(0, spawnPositions.Count)];
         spawnPosition.x += Random.Range(-0.25f, 0.25f);
         spawnPosition.z += Random.Range(-0.25f, 0.25f);
@@ -54,6 +58,12 @@ public class GameSystem : MonoBehaviour
 
     private void Update()
     {
+
+        if (Input.GetKey("escape"))
+        {
+            Application.Quit();
+        }
+        
         if (isGameOver)
         {
             return;
@@ -71,15 +81,15 @@ public class GameSystem : MonoBehaviour
     void End()
     {
         endScreen.SetActive(true);
-        if (score > 30f)
+        if (score > 1f)
         {
             Invoke("GetStar1", 1f);
         }
-        if (score > 60f)
+        if (score > 2f)
         {
             Invoke("GetStar2", 1.5f);
         }
-        if (score > 90f)
+        if (score > 3f)
         {
             Invoke("GetStar3", 2f);
         }
