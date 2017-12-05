@@ -10,6 +10,11 @@ public class GameSystem : MonoBehaviour
     public List<ValuableActor> valuables;
     public GameObject endScreen;
     public Text scoreText;
+
+    public Star Star1;
+    public Star Star2;
+    public Star Star3;
+
     bool isGameOver;
     List<Vector3> spawnPositions = new List<Vector3>();
     float score;
@@ -31,7 +36,7 @@ public class GameSystem : MonoBehaviour
 
     void Start()
     {
-        SpawnCat();
+        Invoke("SpawnCat", 3f);
     }
 
     void SpawnCat()
@@ -66,6 +71,33 @@ public class GameSystem : MonoBehaviour
     void End()
     {
         endScreen.SetActive(true);
+        if (score > 30f)
+        {
+            Invoke("GetStar1", 1f);
+        }
+        if (score > 60f)
+        {
+            Invoke("GetStar2", 1.5f);
+        }
+        if (score > 90f)
+        {
+            Invoke("GetStar3", 2f);
+        }
+    }
+
+    void GetStar1()
+    {
+        Star1.Fill();
+    }
+
+    void GetStar2()
+    {
+        Star2.Fill();
+    }
+
+    void GetStar3()
+    {
+        Star3.Fill();
     }
 
 }
