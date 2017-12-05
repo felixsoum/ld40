@@ -5,7 +5,6 @@ using UnityEngine;
 public class Tiles : MonoBehaviour
 {
     public GameObject TilePrefab;
-    Tile currentTile;
     public const int tilesCol = 8;
     public const int tilesRow = 8;
     Tile[,] tiles = new Tile[tilesCol, tilesRow];
@@ -31,11 +30,6 @@ public class Tiles : MonoBehaviour
     void Update () {
 		
 	}
-
-    public void OnTileMouseOver(Tile tile)
-    {
-        currentTile = tile;
-    }
 
     public void UpdatePickableOnTile(PickableActor pickable)
     {

@@ -81,15 +81,15 @@ public class GameSystem : MonoBehaviour
     void End()
     {
         endScreen.SetActive(true);
-        if (score > 1f)
+        if (score > 30f)
         {
             Invoke("GetStar1", 1f);
         }
-        if (score > 2f)
+        if (score > 60f)
         {
             Invoke("GetStar2", 1.5f);
         }
-        if (score > 3f)
+        if (score > 90f)
         {
             Invoke("GetStar3", 2f);
         }
